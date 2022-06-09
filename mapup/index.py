@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 def free_test_places(input):
     api_url = "https://api.os.uk/search/places/v1/find?"
-    params = {"query":input, 'key': 'YOlPBwkiXXOsZiEPuB076sDjYTIOJqfG','maxresults': '30'}
+    params = {"query":input, 'key': os.environ.get("os_api_key"),'maxresults': '30'}
     # print(api_url + urllib.parse.urlencode(params))
     response = requests.get(api_url + urllib.parse.urlencode(params))
     json = response.json()['results']
