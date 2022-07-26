@@ -1,6 +1,6 @@
-# MapUp REST services
+# UseMap REST services
 
-Services to support MapUp application.
+Services to support UseMap application.
 
 ## Getting Started
 
