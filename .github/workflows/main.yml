@@ -1,0 +1,46 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.9
+
+    - name: Install pipenv
+      run: |
+        pip install pipenv
+
+    - name: Cache pipenv virtualenv
+      id: cache-pipenv
+      uses: actions/cache@v1
+      with:
+        path: ~/.local/share/virtualenvs
+        key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+
+    - name: Install dependencies
+      if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      run: pipenv install
+
+    - name: Configure AWS profile for geovation_zappa
+      run: |
+        pipenv run aws configure set region eu-west-2 --profile geovation_zappa
+        pipenv run aws configure set output json --profile geovation_zappa
+        pipenv run aws configure set aws_access_key_id ${{ secrets.ZAPPA_AWS_ACCESS_KEY_ID }} --profile geovation_zappa
+        pipenv run aws configure set aws_secret_access_key ${{ secrets.ZAPPA_AWS_SECRET_ACCESS_KEY }} --profile geovation_zappa
+
+    - name: Zappa deployment
+      run: pipenv run zappa update production

@@ -5,6 +5,6 @@
         "profile_name": "geovation_zappa",
         "project_name": "usemap-rest",
         "runtime": "python3.9",
-        "s3_bucket": "zappa-usemaprest"
+        "s3_bucket": "zappa-usemap-rest-production"
     }
 }
