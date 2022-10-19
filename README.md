@@ -19,7 +19,7 @@ Requirements for the software and other tools to build, test and push. These sho
 
 ## Installing
 
-The project uses a Pipfile to define dependencies. Before running ensure the required dependencies are installed in your virtual environment.
+The project uses a Pipfile to define dependencies. Before running, ensure the required dependencies are installed for your virtual environment.
 
 ```console
 pipenv install
@@ -32,6 +32,8 @@ The project can be run locally with the included shell file.
 ```console
   ./bootstrap.sh
 ```
+
+Ensure you set your OS API key within your local environment. A copy of `.env.sample` can be taken and named `.env` - the API key should be entered in that file in the `os_api_key` line.
 
 ## API documentation
 
@@ -113,11 +115,11 @@ if project_home not in sys.path:
 from app import app as application  # noqa
 ```
 
-4. Add the required environment variables to your app
+4. Add the required environment variables to your app (replace `your_os_api_key` with your OS API key!)
 
 ```console
 cd ~/usemap-rest
-echo "export os_api_key=your_os_api_key" >> .env
+echo "os_api_key=your_os_api_key" >> .env
 ```
 
 More information is available in the 'Using a code sharing site like GitHub or BitBucket' section at [How to get your code in and out of PythonAnywhere](https://help.pythonanywhere.com/pages/UploadingAndDownloadingFiles/).
@@ -126,10 +128,10 @@ More information is available in the 'Using a code sharing site like GitHub or B
 
 This solution is set up to use [Zappa](https://github.com/zappa/Zappa) to automate deployment to AWS. Zappa maintains:
 
-- The API deplyed as a [AWS Lambda](https://aws.amazon.com/lambda/) function
+- The API deployed as an [AWS Lambda](https://aws.amazon.com/lambda/) function
 - An [AWS API Gateway](https://aws.amazon.com/api-gateway/) to trigger the Lamda function and provide URL security
 
-On commit to the main branch (e.g. from a Pull Request) the Zappa CLI will run an update to make updates to the production deployment.
+On commit to the main branch (e.g. from a Pull Request), the Zappa CLI will run an update to make updates to the production deployment. This is configured with a GitHub action.
 
 ## Authors
 
