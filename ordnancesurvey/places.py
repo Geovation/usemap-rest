@@ -30,17 +30,14 @@ def get_building_from_toid(toid):
     json_uprn = response.json()
     if 'correlations' in json_uprn: 
         uprn = int(json_uprn['correlations'][0]['correlatedIdentifiers'][0]['identifier'])
-    else:
-        uprn = 0
-    if uprn > 0:
         api_url_2  = "https://api.os.uk/search/places/v1/uprn?"
         params = {"uprn": uprn, 'key': os.environ.get("os_api_key")}
         response = requests.get(api_url_2 + urllib.parse.urlencode(params))
-        json = response.json()['results'] if 'results' in response.json() else response.json()
         fresh_addresses = []
-        for value in json:
-            fresh_addresses.append(value['DPA'])
-        return fresh_addresses
+        if 'results' in response.json():
+            json = response.json()['results']
+            for value in json:
+                fresh_addresses.append(value['DPA'])
+            return fresh_addresses
     else:
-        json = [{'message': 'no uprn found'}]
-    return json
+        return []

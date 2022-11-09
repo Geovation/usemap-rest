@@ -14,7 +14,7 @@ def get_feature_from_toid(toid):
     xml += '</ogc:PropertyIsEqualTo>'
     xml += '</ogc:Filter>'
 
-    wfsParams = {
+    wfs_params = {
         'key': os.environ.get("os_api_key"),
         'service': 'WFS',
         "request": 'GetFeature',
@@ -29,7 +29,6 @@ def get_feature_from_toid(toid):
 
     api_url = "https://api.os.uk/features/v1/wfs?"
    
-    response = requests.get(api_url + urllib.parse.urlencode(wfsParams))
+    response = requests.get(api_url + urllib.parse.urlencode(wfs_params))
     json = response.json()
-
     return json
