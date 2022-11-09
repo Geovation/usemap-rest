@@ -139,7 +139,7 @@ Returns a format identical to the endpoint above, but uses a building's unique T
 
 ### Endpoint: /features/<toid>
 
-Returns building information based on its Topographic Identifier (TOID)
+Returns additional building information based on its Topographic Identifier (TOID)
 
 ```/features/<toid>```
 
