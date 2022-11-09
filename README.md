@@ -141,7 +141,7 @@ Returns a format identical to the endpoint above, but uses a building's unique T
 
 Returns building information based on its Topographic Identifier (TOID)
 
-```/feature/<toid>```
+```/features/<toid>```
 
 | URL parameter | Description |
 | --------------- | ----------- |
