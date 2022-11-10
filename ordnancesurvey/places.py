@@ -7,6 +7,7 @@ load_dotenv()
 
 def get_places_from_search(search):
     """Get places results from search term"""
+    
     fresh_addresses = []
     api_url = "https://api.os.uk/search/places/v1/find?"
     params = {"query": search, 'key': os.environ.get(
@@ -21,8 +22,9 @@ def get_places_from_search(search):
     return fresh_addresses
 
 def get_building_from_toid(toid):
-    fresh_addresses = []
     """Get building results from TOID term thru UPRN"""
+
+    fresh_addresses = []
     linked_ident_api_url = f"https://api.os.uk/search/links/v1/identifierTypes/TOID/{toid}?"
     params = {'key': os.environ.get("os_api_key")}
     response = requests.get(linked_ident_api_url + urllib.parse.urlencode(params))
