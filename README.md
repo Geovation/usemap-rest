@@ -88,6 +88,112 @@ The returned data is an array of places that match the search term, currently li
 ]
 ```
 
+### Endpoint: /places/toid/<toid>
+
+Returns building information based on its Topographic Identifier (TOID)
+
+```/places/toid/<toid>```
+
+| URL parameter | Description |
+| --------------- | ----------- |
+| toid | An Ordnance Survey TOID e.g. osgb0000045763621288 |
+
+Returns a format identical to the endpoint above, but uses a building's unique TOID instead of a query. To be used if a building is already known (e.g. when clicked on the map)
+
+```json
+[
+  {
+    "UPRN":"200010019924",
+    "UDPRN":"52126562",
+    "ADDRESS":"ORDNANCE SURVEY, 4, ADANAC DRIVE, NURSLING, SOUTHAMPTON, SO16 0AS",
+    "ORGANISATION_NAME":"ORDNANCE SURVEY",
+    "BUILDING_NUMBER":"4",
+    "THOROUGHFARE_NAME":"ADANAC DRIVE",
+    "DEPENDENT_LOCALITY":"NURSLING",
+    "POST_TOWN":"SOUTHAMPTON",
+    "POSTCODE":"SO16 0AS",
+    "RPC":"2",
+    "X_COORDINATE":437292.43,
+    "Y_COORDINATE":115541.95,
+    "STATUS":"APPROVED",
+    "LOGICAL_STATUS_CODE":"1",
+    "CLASSIFICATION_CODE":"CO01GV",
+    "CLASSIFICATION_CODE_DESCRIPTION":"Central Government Service",
+    "LOCAL_CUSTODIAN_CODE":1760,
+    "LOCAL_CUSTODIAN_CODE_DESCRIPTION":"TEST VALLEY",
+    "COUNTRY_CODE":"E",
+    "COUNTRY_CODE_DESCRIPTION":"This record is within England",
+    "POSTAL_ADDRESS_CODE":"D",
+    "POSTAL_ADDRESS_CODE_DESCRIPTION":"A record which is linked to PAF",
+    "BLPU_STATE_CODE":"2",
+    "BLPU_STATE_CODE_DESCRIPTION":"In use",
+    "TOPOGRAPHY_LAYER_TOID":"osgb1000002682081995",
+    "LAST_UPDATE_DATE":"31/03/2020",
+    "ENTRY_DATE":"01/09/2010",
+    "BLPU_STATE_DATE":"01/09/2010",
+    "LANGUAGE":"EN",
+    "MATCH":1.0,
+    "MATCH_DESCRIPTION":"EXACT",
+    "DELIVERY_POINT_SUFFIX":"1A"
+  }
+]
+```
+
+### Endpoint: /features/<toid>
+
+Returns additional building information based on its Topographic Identifier (TOID)
+
+```/features/<toid>```
+
+| URL parameter | Description |
+| --------------- | ----------- |
+| toid | An Ordnance Survey TOID e.g. osgb0000045763621288 |
+
+Returns a different set of information about a specific building, including its geometry (shape on a map) and area in square meters
+
+```json
+{
+  "type":"FeatureCollection",
+  "crs":{
+    "type":"name",
+    "properties":{
+      "name":"EPSG:4326"
+    }
+  },
+  "features":[
+    {
+      "type":"Feature",
+      "geometry":{
+        "type":"MultiPolygon",
+        "coordinates":[
+          [
+            [
+              [
+                50.93857733,
+                -1.47089411
+              ],
+              [
+                50.9385768,
+                -1.4708944
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties":{
+        "GmlID":"Topography_TopographicArea.61885403",
+        "OBJECTID":61885403,
+        "TOID":"osgb1000002682081995",
+        "Theme":"Buildings",
+        "CalculatedAreaValue":6871.498608,
+        "ChangeDate":"5/10/2022",
+        "DescriptiveGroup":"Building"
+      }
+    }
+  ]
+}
+```
+
 ## Deployment
 
 ### Development deploy to PythonAnywhere
