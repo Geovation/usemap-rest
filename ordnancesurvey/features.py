@@ -22,7 +22,6 @@ def get_feature_from_toid(toid):
         "typeNames": 'Topography_TopographicArea',
         "propertyName": 'TOID,DescriptiveGroup,SHAPE,Theme,ChangeDate,ChangeHistory,CALCULATEDAREAVALUE',
         "outputFormat": 'GEOJSON',
-        "srsName": 'urn:ogc:def:crs:EPSG::4326',
         "filter": xml,
         "count": 1
     }
