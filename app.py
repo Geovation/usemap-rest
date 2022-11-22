@@ -16,6 +16,10 @@ def get_toid_building(input):
 def get_feature(input):
     return jsonify(features.get_feature_from_toid(input))
 
+@app.route("/features/ngd/<input>")
+def get_feature_ngd(input):
+    return jsonify(features.get_feature_from_toid_ngd(input))
+
 @app.route("/linkedids/uprn/<input>")
 def get_linked_ids(input):
     return jsonify(linkedids.get_linked_ids_from_uprn(input))
