@@ -8,14 +8,13 @@ These instructions will give you a copy of the project up and running on
 your local machine for development and testing purposes. See deployment
 for notes on deploying the project on a live system.
 
-### Prerequisites
+## Prerequisites
 
 Requirements for the software and other tools to build, test and push. These should be installed on your local computer.
 
 - [Python 3](https://www.python.org/downloads/)
 - [Pip](https://pypi.org/project/pip/)
 - [Pipenv](https://pipenv.pypa.io/en/latest/)
-- [Flask](https://flask.palletsprojects.com/en/2.1.x/)
 
 ## Installing
 
@@ -30,12 +29,63 @@ pipenv install
 The project can be run locally with the included shell file.
 
 ```console
-  ./bootstrap.sh
+./bootstrap.sh
 ```
 
 Ensure you set your OS API key within your local environment. A copy of `.env.sample` can be taken and named `.env` - the API key should be entered in that file in the `os_api_key` line.
 
+The environment file also allows for cross origin resource sharing to be configured. Enter the value you require (e.g. `*` or `http://localhost:3000`) for the `cors_origin` variable.
+
 ## API documentation
+
+### Endpoint: /features/toid/<toid>
+
+Returns building information based on the Topographic Identifier (TOID)
+
+`/features/toid/<toid>`
+
+| URL parameter | Description                                       |
+| ------------- | ------------------------------------------------- |
+| toid          | An Ordnance Survey TOID e.g. osgb0000045763621288 |
+
+The returned data is a set of information about a specific building, including its geometry (shape on a map) and area in square meters
+
+```json
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [50.93857733, -1.47089411],
+              [50.9385768, -1.4708944]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "GmlID": "Topography_TopographicArea.61885403",
+        "OBJECTID": 61885403,
+        "TOID": "osgb1000002682081995",
+        "Theme": "Buildings",
+        "CalculatedAreaValue": 6871.498608,
+        "ChangeDate": "5/10/2022",
+        "DescriptiveGroup": "Building"
+      }
+    }
+  ]
+}
+```
 
 ### Endpoint: /places/<search>
 
@@ -90,107 +140,119 @@ The returned data is an array of places that match the search term, currently li
 
 ### Endpoint: /places/toid/<toid>
 
-Returns building information based on its Topographic Identifier (TOID)
+Returns place information for a building by passing its Topographic Identifier (TOID)
 
-```/places/toid/<toid>```
+`/places/toid/<toid>`
 
-| URL parameter | Description |
-| --------------- | ----------- |
-| toid | An Ordnance Survey TOID e.g. osgb0000045763621288 |
+| URL parameter | Description                                       |
+| ------------- | ------------------------------------------------- |
+| toid          | An Ordnance Survey TOID e.g. osgb0000045763621288 |
 
-Returns a format identical to the endpoint above, but uses a building's unique TOID instead of a query. To be used if a building is already known (e.g. when clicked on the map)
+Returns a format identical to the search endpoint, but uses a building's unique TOID instead of a query. To be used if a building is already known (e.g. when clicked on the map)
 
 ```json
 [
   {
-    "UPRN":"200010019924",
-    "UDPRN":"52126562",
-    "ADDRESS":"ORDNANCE SURVEY, 4, ADANAC DRIVE, NURSLING, SOUTHAMPTON, SO16 0AS",
-    "ORGANISATION_NAME":"ORDNANCE SURVEY",
-    "BUILDING_NUMBER":"4",
-    "THOROUGHFARE_NAME":"ADANAC DRIVE",
-    "DEPENDENT_LOCALITY":"NURSLING",
-    "POST_TOWN":"SOUTHAMPTON",
-    "POSTCODE":"SO16 0AS",
-    "RPC":"2",
-    "X_COORDINATE":437292.43,
-    "Y_COORDINATE":115541.95,
-    "STATUS":"APPROVED",
-    "LOGICAL_STATUS_CODE":"1",
-    "CLASSIFICATION_CODE":"CO01GV",
-    "CLASSIFICATION_CODE_DESCRIPTION":"Central Government Service",
-    "LOCAL_CUSTODIAN_CODE":1760,
-    "LOCAL_CUSTODIAN_CODE_DESCRIPTION":"TEST VALLEY",
-    "COUNTRY_CODE":"E",
-    "COUNTRY_CODE_DESCRIPTION":"This record is within England",
-    "POSTAL_ADDRESS_CODE":"D",
-    "POSTAL_ADDRESS_CODE_DESCRIPTION":"A record which is linked to PAF",
-    "BLPU_STATE_CODE":"2",
-    "BLPU_STATE_CODE_DESCRIPTION":"In use",
-    "TOPOGRAPHY_LAYER_TOID":"osgb1000002682081995",
-    "LAST_UPDATE_DATE":"31/03/2020",
-    "ENTRY_DATE":"01/09/2010",
-    "BLPU_STATE_DATE":"01/09/2010",
-    "LANGUAGE":"EN",
-    "MATCH":1.0,
-    "MATCH_DESCRIPTION":"EXACT",
-    "DELIVERY_POINT_SUFFIX":"1A"
+    "UPRN": "200010019924",
+    "UDPRN": "52126562",
+    "ADDRESS": "ORDNANCE SURVEY, 4, ADANAC DRIVE, NURSLING, SOUTHAMPTON, SO16 0AS",
+    "ORGANISATION_NAME": "ORDNANCE SURVEY",
+    "BUILDING_NUMBER": "4",
+    "THOROUGHFARE_NAME": "ADANAC DRIVE",
+    "DEPENDENT_LOCALITY": "NURSLING",
+    "POST_TOWN": "SOUTHAMPTON",
+    "POSTCODE": "SO16 0AS",
+    "RPC": "2",
+    "X_COORDINATE": 437292.43,
+    "Y_COORDINATE": 115541.95,
+    "STATUS": "APPROVED",
+    "LOGICAL_STATUS_CODE": "1",
+    "CLASSIFICATION_CODE": "CO01GV",
+    "CLASSIFICATION_CODE_DESCRIPTION": "Central Government Service",
+    "LOCAL_CUSTODIAN_CODE": 1760,
+    "LOCAL_CUSTODIAN_CODE_DESCRIPTION": "TEST VALLEY",
+    "COUNTRY_CODE": "E",
+    "COUNTRY_CODE_DESCRIPTION": "This record is within England",
+    "POSTAL_ADDRESS_CODE": "D",
+    "POSTAL_ADDRESS_CODE_DESCRIPTION": "A record which is linked to PAF",
+    "BLPU_STATE_CODE": "2",
+    "BLPU_STATE_CODE_DESCRIPTION": "In use",
+    "TOPOGRAPHY_LAYER_TOID": "osgb1000002682081995",
+    "LAST_UPDATE_DATE": "31/03/2020",
+    "ENTRY_DATE": "01/09/2010",
+    "BLPU_STATE_DATE": "01/09/2010",
+    "LANGUAGE": "EN",
+    "MATCH": 1.0,
+    "MATCH_DESCRIPTION": "EXACT",
+    "DELIVERY_POINT_SUFFIX": "1A"
   }
 ]
 ```
 
-### Endpoint: /features/<toid>
+### Endpoint: /linkedids/uprn/<uprn>
 
-Returns additional building information based on its Topographic Identifier (TOID)
+Returns linked ID information for a Unique Property Reference Number (UPRN)
 
-```/features/<toid>```
+`/features/toid/<toid>`
 
-| URL parameter | Description |
-| --------------- | ----------- |
-| toid | An Ordnance Survey TOID e.g. osgb0000045763621288 |
+| URL parameter | Description                                         |
+| ------------- | --------------------------------------------------- |
+| urpn          | A Unique Property Reference Number e.g. 10094608166 |
 
-Returns a different set of information about a specific building, including its geometry (shape on a map) and area in square meters
+The returned data is a set of correlated IDs for the property
 
 ```json
 {
-  "type":"FeatureCollection",
-  "crs":{
-    "type":"name",
-    "properties":{
-      "name":"EPSG:4326"
-    }
-  },
-  "features":[
+  "correlations": [
     {
-      "type":"Feature",
-      "geometry":{
-        "type":"MultiPolygon",
-        "coordinates":[
-          [
-            [
-              [
-                50.93857733,
-                -1.47089411
-              ],
-              [
-                50.9385768,
-                -1.4708944
-              ]
-            ]
-          ]
-        ]
-      },
-      "properties":{
-        "GmlID":"Topography_TopographicArea.61885403",
-        "OBJECTID":61885403,
-        "TOID":"osgb1000002682081995",
-        "Theme":"Buildings",
-        "CalculatedAreaValue":6871.498608,
-        "ChangeDate":"5/10/2022",
-        "DescriptiveGroup":"Building"
-      }
+      "correlatedFeatureType": "Street",
+      "correlatedIdentifierType": "USRN",
+      "correlatedIdentifiers": [
+        {
+          "confidence": "Version information is correct",
+          "correlationIdentifier": "BLPU_10094608166_Street_21604971_11",
+          "identifier": "21604971",
+          "versionDate": "2016-02-10"
+        }
+      ],
+      "correlationMethodIdentifier": "BLPU_UPRN_Street_USRN_11",
+      "searchedIdentifierVersionDate": "2019-01-31"
+    },
+    {
+      "correlatedFeatureType": "RoadLink",
+      "correlatedIdentifierType": "TOID",
+      "correlatedIdentifiers": [
+        {
+          "confidence": "Version information is correct",
+          "correlationIdentifier": "BLPU_10094608166_RoadLink_osgb4000000030239787_9",
+          "identifier": "osgb4000000030239787",
+          "versionDate": "2017-04-15"
+        }
+      ],
+      "correlationMethodIdentifier": "BLPU_UPRN_RoadLink_TOID_9",
+      "searchedIdentifierVersionDate": "2019-01-31"
+    },
+    {
+      "correlatedFeatureType": "TopographicArea",
+      "correlatedIdentifierType": "TOID",
+      "correlatedIdentifiers": [
+        {
+          "confidence": "Version information is correct",
+          "correlationIdentifier": "BLPU_10094608166_TopographicArea_osgb1000005736182_5",
+          "identifier": "osgb1000005736182",
+          "versionDate": "2019-12-09",
+          "versionNumber": 7
+        }
+      ],
+      "correlationMethodIdentifier": "BLPU_UPRN_TopographicArea_TOID_5",
+      "searchedIdentifierVersionDate": "2019-01-31"
     }
-  ]
+  ],
+  "linkedIdentifier": {
+    "featureType": "BLPU",
+    "identifier": "10094608166",
+    "identifierType": "UPRN"
+  }
 }
 ```
 
@@ -242,7 +304,7 @@ On commit to the main branch (e.g. from a Pull Request), the Zappa CLI will run 
 ## Authors
 
 See the list of
-[contributors](https://github.com/Geovation/usemap-rest/contributors)
+[contributors](https://github.com/geovation/usemap-rest/contributors)
 who participated in this project.
 
 ## License
