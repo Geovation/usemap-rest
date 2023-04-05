@@ -32,7 +32,7 @@ The project can be run locally with the included shell file.
 ./bootstrap.sh
 ```
 
-Ensure you set your OS API key within your local environment. A copy of `.env.sample` can be taken and named `.env` - the API key should be entered in that file in the `os_api_key` line.
+Ensure you set your OS API key within your local environment. A copy of `.env.sample` can be taken and renamed to `.env` - the API key should be entered in that file in the `os_api_key` line.
 
 The environment file also allows for cross origin resource sharing to be configured. Enter the value you require (e.g. `*` or `http://localhost:3000`) for the `cors_origin` variable.
 
